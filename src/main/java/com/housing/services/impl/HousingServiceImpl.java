@@ -41,7 +41,10 @@ public class HousingServiceImpl implements HousingService {
             // Scroll the page to the bottom to load all elements
             js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
-            Document document = Jsoup.connect(url).get();
+            // Wait for some time for the page to load completely
+            Thread.sleep(2000); //adjustable
+
+            Document document = Jsoup.parse(driver.getPageSource());
             Elements propertyElements = document.select("#innerApp > div.css-1io3q4n > div.css-1xg7tbs > div.css-69haxp > div.css-1m1bruh > div");
 //            System.out.println(propertyElements.size());
             for (Element property : propertyElements) {
@@ -63,8 +66,12 @@ public class HousingServiceImpl implements HousingService {
                 updateMatch(properties1);
 
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return properties;
     }
