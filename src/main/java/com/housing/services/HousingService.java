@@ -1,6 +1,6 @@
-package com.crick.apis.services;
+package com.housing.services;
 
-import com.crick.apis.entities.Properties;
+import com.housing.entities.Properties;
 
 import java.util.List;
 

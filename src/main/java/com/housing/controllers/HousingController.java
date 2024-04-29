@@ -1,6 +1,6 @@
-package com.crick.apis.controllers;
+package com.housing.controllers;
 
-import com.crick.apis.services.HousingService;
+import com.housing.services.HousingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

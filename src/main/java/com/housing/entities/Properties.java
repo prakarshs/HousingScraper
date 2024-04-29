@@ -1,4 +1,4 @@
-package com.crick.apis.entities;
+package com.housing.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

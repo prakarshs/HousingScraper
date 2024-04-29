@@ -1,6 +1,6 @@
-package com.crick.apis.repositories;
+package com.housing.repositories;
 
-import com.crick.apis.entities.Properties;
+import com.housing.entities.Properties;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
