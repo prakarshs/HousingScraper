@@ -26,6 +26,15 @@ public class HousingServiceImpl implements HousingService {
     public List<com.housing.entities.Properties> getProperties() {
         List<com.housing.entities.Properties> properties = new ArrayList<>();
         try {
+            // Set the path to ChromeDriver executable
+            System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
+
+            // Initialize ChromeDriver
+            WebDriver driver = new ChromeDriver();
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+
+
             String url = "https://housing.com/in/buy/searches/P2xc23on9yrfbikhj";
             Document document = Jsoup.connect(url).get();
             Elements propertyElements = document.select("#innerApp > div.css-1io3q4n > div.css-1xg7tbs > div.css-69haxp > div.css-1m1bruh > div");
