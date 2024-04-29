@@ -21,7 +21,7 @@ public class Properties {
     private int propertyId;
 
     private String propertyName;
-    private String propertySector;
+    private String propertyLocation;
     private String averagePrice;
 
 }
