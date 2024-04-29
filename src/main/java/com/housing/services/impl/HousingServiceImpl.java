@@ -66,7 +66,8 @@ public class HousingServiceImpl implements HousingService {
                 updateMatch(properties1);
 
             }
-
+            // Close the WebDriver instance
+            driver.quit();
 
         } catch (IOException e) {
             e.printStackTrace();
