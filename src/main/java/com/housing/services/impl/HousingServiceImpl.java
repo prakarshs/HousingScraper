@@ -36,9 +36,11 @@ public class HousingServiceImpl implements HousingService {
             WebDriver driver = new ChromeDriver();
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
-
-
             String url = "https://housing.com/in/buy/searches/P2xc23on9yrfbikhj";
+
+            // Scroll the page to the bottom to load all elements
+            js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
             Document document = Jsoup.connect(url).get();
             Elements propertyElements = document.select("#innerApp > div.css-1io3q4n > div.css-1xg7tbs > div.css-69haxp > div.css-1m1bruh > div");
 //            System.out.println(propertyElements.size());
