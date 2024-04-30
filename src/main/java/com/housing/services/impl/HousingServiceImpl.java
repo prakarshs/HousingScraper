@@ -55,8 +55,12 @@ public class HousingServiceImpl implements HousingService {
                 Elements propertyElements = document.select("#innerApp > div.css-1io3q4n > div.css-1xg7tbs > div.css-69haxp > div.css-1m1bruh > div");
                 for (Element property : propertyElements) {
                     HashMap<String, String> propertyInfo = new LinkedHashMap<>();
+                    String matcher = property.select("[id^=\"srp-\"]> div.T_cd31fb10._156v13rr._j6cmky.T_24c887cb._biqgdtch._axkb7n._9s1txw > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._h31fwx._vy54a6._5j1sgq.T_4251c589 > div > div > div > button._e21ul9._g34jg8._3f1cd5._2du67f._c8dlk8._l814br._h0ftgi._7l1lob.T_4d044475.T_da708d9c._j9qr11ef._1yfe11ef._xvuoe25i._1vt4glyw._1q73uea4._9jtlke._5jyh40._26oii0.phone-cta-button.cta").text();
 
+                    if()
+                    {
 
+                    }
 
 
 
