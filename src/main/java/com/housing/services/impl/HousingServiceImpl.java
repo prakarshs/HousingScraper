@@ -70,6 +70,10 @@ public class HousingServiceImpl implements HousingService {
                         properties1.setPropertyName(propertyName);
                         properties1.setPropertyLocation(propertyLocation);
                     }
+                    else if (matcher.equals("View Phone"))
+                    {
+
+                    }
 
 
                     properties.add(properties1);
