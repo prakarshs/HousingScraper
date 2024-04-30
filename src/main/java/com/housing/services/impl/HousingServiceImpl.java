@@ -56,9 +56,11 @@ public class HousingServiceImpl implements HousingService {
                 for (Element property : propertyElements) {
                     HashMap<String, String> propertyInfo = new LinkedHashMap<>();
 
-                    String averagePrice = null,propertyName = null,propertyLocation = null;
+                    String averagePrice = "",propertyName = "",propertyLocation = "";
 
-                    String matcher = property.select("[id^=\"srp-\"]> div.T_cd31fb10._156v13rr._j6cmky.T_24c887cb._biqgdtch._axkb7n._9s1txw > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._h31fwx._vy54a6._5j1sgq.T_4251c589 > div > div > div > button._e21ul9._g34jg8._3f1cd5._2du67f._c8dlk8._l814br._h0ftgi._7l1lob.T_4d044475.T_da708d9c._j9qr11ef._1yfe11ef._xvuoe25i._1vt4glyw._1q73uea4._9jtlke._5jyh40._26oii0.phone-cta-button.cta").text();
+                    String matcher = property.select("[id^=\"srp-\"]> div > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._h31fwx._vy54a6._5j1sgq.T_4251c589 > div > div > div > button._e21ul9._g34jg8._3f1cd5._2du67f._c8dlk8._l814br._h0ftgi._7l1lob.T_4d044475.T_da708d9c._j9qr11ef._1yfe11ef._xvuoe25i._1vt4glyw._1q73uea4._9jtlke._5jyh40._26oii0.phone-cta-button.cta").text();
+
+                    System.out.println(matcher);
 
                     if(matcher.equals("Brochure"))
                     {
@@ -69,7 +71,9 @@ public class HousingServiceImpl implements HousingService {
                     }
                     else if (matcher.equals("View Phone"))
                     {
-
+                        averagePrice = property.select("[id^=\"srp-\"] > div.T_cd31fb10._156v13rr._j6cmky.T_24c887cb._biqgdtch._axkb7n._9s1txw > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._mkh2mm._1asa1q9c._rlozgrho._2hx11btx.T_6412d3ba > div._mkh2mm.T_b70307b8 > section > div.T_1e5d5ecb._e214no.T_ad2d45b4._9s1txw.T_9473b29c._5j1tlg._0h1h6o._vy18a8._be1g80._2621jn.item-container > div:nth-child(3) > div._9s1txw._ar1bp4._amkb7n._fc1h6o._r31e5h._gzftgi.T_f121fc5f > div.T_091c165f._sq1l2s._vv1q9c._ks15vq.T_efe231cd._vy1ipv._7ltvct._g3dlk8._c81fwx._cs1nn1.value").text();
+                        propertyName = property.select("[id^=\"srp-\"] > div.T_cd31fb10._156v13rr._j6cmky.T_24c887cb._biqgdtch._axkb7n._9s1txw > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._mkh2mm._1asa1q9c._rlozgrho._2hx11btx.T_6412d3ba > div._mkh2mm.T_b70307b8 > section > div.T_1e5d5ecb._e214no.T_ad2d45b4._9s1txw.T_9473b29c._5j1tlg._0h1h6o._vy18a8._be1g80._2621jn.item-container > div:nth-child(1) > div._9s1txw._ar1bp4._amkb7n._fc1h6o._r31e5h._gzftgi.T_f121fc5f > a").text();
+                        propertyLocation = property.select("[id^=\"srp-\"] > div.T_cd31fb10._156v13rr._j6cmky.T_24c887cb._biqgdtch._axkb7n._9s1txw > div._mkh2mm._9s1txw._ar1bp4._fc1yb4._axkb7n._l8bsq7._vy1x30._gdnqedxx._ft8m16eo.T_47e9c049 > div._mkh2mm._1asa1q9c._rlozgrho._2hx11btx.T_6412d3ba > div._9s1txw._gqyh40._0h1q9y.T_8c8ed98f > a > h2 > div > span").text();
                     }
 
                     if (averagePrice.isBlank() || propertyName.isBlank()) continue;
