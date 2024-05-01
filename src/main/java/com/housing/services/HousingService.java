@@ -7,6 +7,7 @@ import java.util.List;
 public interface HousingService {
 
     List<Properties> getProperties();
+    List<Properties> searchBarProperties();
 
 
 
