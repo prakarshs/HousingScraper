@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.*;
 
 @Service
@@ -122,7 +123,7 @@ public class HousingServiceImpl implements HousingService {
             searchBar.sendKeys(Keys.ENTER);
 
             // Wait for search results to load
-            WebDriverWait wait = new WebDriverWait(driver, );
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div.css-8r02hv > div.css-1lu7zj7 > div > div.css-164r41r > div > div.css-1vd5v6 > div.css-10egq61 > div > h1")));
 
             // Parse search results
