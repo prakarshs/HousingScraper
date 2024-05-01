@@ -135,15 +135,15 @@ public class HousingServiceImpl implements HousingService {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div > div> div > div > div > div > div> div > h1")));
 
 
-//            // Parse search results
-//            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div > div > div > div > div > div > div > span"));
-//            List<String> prices = new ArrayList<>();
-//            for (WebElement priceElement : priceElements) {
-//                prices.add(priceElement.getText());
-//            }
-//
-//            // Print or store the prices
-//            System.out.println("Prices : " + prices);
+            // Parse search results
+            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div > div > div > div > div > div > div > span.css-124qey8"));
+            List<String> prices = new ArrayList<>();
+            for (WebElement priceElement : priceElements) {
+                prices.add(priceElement.getText());
+            }
+
+            // Print or store the prices
+            System.out.println("Prices : " + prices);
         }
 
 // Close WebDriver session
