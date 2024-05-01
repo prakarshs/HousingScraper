@@ -7,9 +7,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -104,7 +105,39 @@ public class HousingServiceImpl implements HousingService {
     @Override
     public List<Properties> searchBarProperties() {
 
+        WebDriver driver = new ChromeDriver();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
+        driver.get("https://housing.com/");
+
+        ArrayList<String> propertyNames = new ArrayList<>();
+        propertyNames.add("Smart World Orchard");
+        // Loop through property names
+        for (String propertyName : propertyNames) {
+            // Find the search bar element and enter the property name
+            WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div.css-6yl0sf > div > div > div.search-wrap.css-cryaei > div > div.css-1p9lys > input"));
+            searchBar.sendKeys(propertyName);
+
+            // Submit the search query
+            searchBar.sendKeys(Keys.ENTER);
+
+            // Wait for search results to load
+            WebDriverWait wait = new WebDriverWait(driver, );
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div.css-8r02hv > div.css-1lu7zj7 > div > div.css-164r41r > div > div.css-1vd5v6 > div.css-10egq61 > div > h1")));
+
+            // Parse search results
+            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div.css-8r02hv > div.css-1lu7zj7 > div > div.css-164r41r > div > div.css-pjrxll > div.css-1hidc9c > span.css-124qey8"));
+            List<String> prices = new ArrayList<>();
+            for (WebElement priceElement : priceElements) {
+                prices.add(priceElement.getText());
+            }
+
+            // Print or store the prices
+            System.out.println("Prices for " + propertyName + ": " + prices);
+        }
+
+// Close WebDriver session
+        driver.quit();
 
         return null;
     }
