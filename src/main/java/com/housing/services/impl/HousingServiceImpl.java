@@ -119,6 +119,7 @@ public class HousingServiceImpl implements HousingService {
 
         ArrayList<String> propertyNames = new ArrayList<>();
         propertyNames.add("Smart World Orchard");
+        propertyNames.add("ROF Ambliss");
         propertyNames.add("DLF The Arbour");
         propertyNames.add("Silverglades The Melia");
         propertyNames.add("DLF Moulsari Enclave");
@@ -130,7 +131,6 @@ public class HousingServiceImpl implements HousingService {
         propertyNames.add("Birla Navya Anaika");
         propertyNames.add("Pyramid Urban Homes");
         propertyNames.add("Tulip Yellow");
-        propertyNames.add("ROF Ambliss");
         propertyNames.add("Puri The Aravallis");
         propertyNames.add("Godrej Nature Plus");
         propertyNames.add("Godrej Serenity Gurgaon");
@@ -520,7 +520,18 @@ public class HousingServiceImpl implements HousingService {
         for (String propertyName : propertyNames) {
             // Find the search bar element and enter the property name
             System.out.println("in loop of propertiy:" + propertyName);
-            WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
+            WebElement searchBar;
+            try {
+                searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
+            }
+            catch (NoSuchElementException e){
+                try {
+                    searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
+                }
+                catch (NoSuchElementException ex){
+                    continue;
+                }
+            }
             searchBar.sendKeys(propertyName);
             System.out.println("entered value in bar");
 
@@ -540,8 +551,7 @@ public class HousingServiceImpl implements HousingService {
                     "[id^=\"srp-\"] > div > div > div > div > section > div > div:nth-child(2) > div > div"
             );
 
-
-            WebElement visibleElement = waitForAnyElement(driver, cssSelectors, Duration.ofSeconds(5));
+            WebElement visibleElement = waitForAnyElement(driver, cssSelectors, Duration.ofSeconds(10));
 
 
             // Parse search results
@@ -550,21 +560,30 @@ public class HousingServiceImpl implements HousingService {
                     .propertyName(propertyName)
                     .averagePrice("n/a")
                     .build();
-            System.out.println("building entities");
-
+            System.out.println("building entities"+visibleElement);
             if(priceElement !=null) {
+                System.out.println("price exists");
+                try {
                     searchProperty.setAveragePrice(priceElement.getText());
                 }
+                catch (StaleElementReferenceException e) {
+                    visibleElement = waitForAnyElement(driver, cssSelectors, Duration.ofSeconds(10));
+                    priceElement = visibleElement;
+                    searchProperty.setAveragePrice(priceElement.getText());
+                }
+            }
                 searchPropRepo.save(searchProperty);
-                      // Add a 3-second delay
+            System.out.println("saved in repo");
+
+                      // Add a 2-second delay
             try {
-                Thread.sleep(5000); // 3000 milliseconds = 3 seconds
+                Thread.sleep(5000); // 2000 milliseconds = 2 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("before rerouting");
             driver.navigate().to("https://housing.com/");
-
+            System.out.println("after rerouting");
         }
 
 // Close WebDriver session
