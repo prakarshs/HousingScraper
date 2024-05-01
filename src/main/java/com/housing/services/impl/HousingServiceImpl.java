@@ -13,6 +13,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -23,13 +24,11 @@ public class HousingServiceImpl implements HousingService {
 
 
     private PropRepo propRepo;
+    @Autowired
     private SearchPropRepo searchPropRepo;
 
     public HousingServiceImpl(PropRepo propRepo) {
         this.propRepo = propRepo;
-    }
-    public HousingServiceImpl(SearchPropRepo searchPropRepo) {
-        this.searchPropRepo = searchPropRepo;
     }
 
     @Override
@@ -514,9 +513,10 @@ public class HousingServiceImpl implements HousingService {
         propertyNames.add("Ireo Uptown");
         propertyNames.add("Unitech Fresco");
 
+
+        driver.get("https://housing.com/");
         // Loop through property names
         for (String propertyName : propertyNames) {
-            driver.get("https://housing.com/");
             // Find the search bar element and enter the property name
             WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
             searchBar.sendKeys(propertyName);
@@ -546,6 +546,7 @@ public class HousingServiceImpl implements HousingService {
 
                 searchPropRepo.save(searchProperty);
             }
+            driver.navigate().back();
         }
 
 // Close WebDriver session

@@ -1,11 +1,11 @@
 package com.housing.repositories;
 
-import com.housing.entities.Properties;
 import com.housing.entities.SearchProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public interface SearchPropRepo extends JpaRepository<SearchProperty,Integer> {
 
 
