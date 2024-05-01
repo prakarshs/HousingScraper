@@ -114,8 +114,6 @@ public class HousingServiceImpl implements HousingService {
         WebDriver driver = new ChromeDriver();
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        driver.get("https://housing.com/");
-
         ArrayList<String> propertyNames = new ArrayList<>();
         propertyNames.add("Smart World Orchard");
         propertyNames.add("DLF The Arbour");
@@ -513,23 +511,9 @@ public class HousingServiceImpl implements HousingService {
         propertyNames.add("Ireo Uptown");
         propertyNames.add("Unitech Fresco");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // Loop through property names
         for (String propertyName : propertyNames) {
+            driver.get("https://housing.com/");
             // Find the search bar element and enter the property name
             WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
             searchBar.sendKeys(propertyName);
