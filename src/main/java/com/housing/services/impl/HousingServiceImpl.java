@@ -118,25 +118,32 @@ public class HousingServiceImpl implements HousingService {
         // Loop through property names
         for (String propertyName : propertyNames) {
             // Find the search bar element and enter the property name
-            WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div.css-6yl0sf > div > div > div.search-wrap.css-cryaei > div > div.css-1p9lys > input"));
+            WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
             searchBar.sendKeys(propertyName);
 
+            // Add a 3-second delay
+            try {
+                Thread.sleep(3000); // 3000 milliseconds = 3 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             // Submit the search query
             searchBar.sendKeys(Keys.ENTER);
 
             // Wait for search results to load
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div.css-8r02hv > div.css-1lu7zj7 > div > div.css-164r41r > div > div.css-1vd5v6 > div.css-10egq61 > div > h1")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div > div> div > div > div > div > div> div > h1")));
+
 
             // Parse search results
-            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div.css-8r02hv > div.css-1lu7zj7 > div > div.css-164r41r > div > div.css-pjrxll > div.css-1hidc9c > span.css-124qey8"));
+            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div > div > div > div > div > div > div > span"));
             List<String> prices = new ArrayList<>();
             for (WebElement priceElement : priceElements) {
                 prices.add(priceElement.getText());
             }
 
             // Print or store the prices
-            System.out.println("Prices for " + propertyName + ": " + prices);
+            System.out.println("Prices : " + prices);
         }
 
 // Close WebDriver session
