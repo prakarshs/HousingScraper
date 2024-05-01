@@ -28,6 +28,9 @@ public class HousingServiceImpl implements HousingService {
     public HousingServiceImpl(PropRepo propRepo) {
         this.propRepo = propRepo;
     }
+    public HousingServiceImpl(SearchPropRepo searchPropRepo) {
+        this.searchPropRepo = searchPropRepo;
+    }
 
     @Override
     public List<com.housing.entities.Properties> getProperties() {
