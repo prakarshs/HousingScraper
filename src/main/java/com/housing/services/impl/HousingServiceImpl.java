@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.NoSuchElementException;
 
 @Service
 public class HousingServiceImpl implements HousingService {
@@ -119,11 +120,12 @@ public class HousingServiceImpl implements HousingService {
         ArrayList<String> propertyNames = new ArrayList<>();
         propertyNames.add("Smart World Orchard");
         propertyNames.add("DLF The Arbour");
+        propertyNames.add("Silverglades The Melia");
+        propertyNames.add("DLF Moulsari Enclave");
         propertyNames.add("Signature Global Park 4 and 5");
         propertyNames.add("Aradhya Homes");
         propertyNames.add("Adani Samsara Vilasa");
         propertyNames.add("Signature Global City 63A");
-        propertyNames.add("Silverglades The Melia");
         propertyNames.add("Conscient Hines Elevate");
         propertyNames.add("Birla Navya Anaika");
         propertyNames.add("Pyramid Urban Homes");
@@ -157,7 +159,6 @@ public class HousingServiceImpl implements HousingService {
         propertyNames.add("Signature The Millennia 3");
         propertyNames.add("Signature Global Prime Phase 2");
         propertyNames.add("DLF Siris Estate");
-        propertyNames.add("DLF Moulsari Enclave");
         propertyNames.add("M3M Golf Estate Fairway West");
         propertyNames.add("Signature Global Golf Greens");
         propertyNames.add("Signature Global The Millennia Phase 1");
@@ -518,8 +519,10 @@ public class HousingServiceImpl implements HousingService {
         // Loop through property names
         for (String propertyName : propertyNames) {
             // Find the search bar element and enter the property name
+            System.out.println("in loop of propertiy:" + propertyName);
             WebElement searchBar = driver.findElement(By.cssSelector("#innerApp > div> div > div > div> div > div > input"));
             searchBar.sendKeys(propertyName);
+            System.out.println("entered value in bar");
 
             // Add a 3-second delay
             try {
@@ -529,24 +532,39 @@ public class HousingServiceImpl implements HousingService {
             }
             // Submit the search query
             searchBar.sendKeys(Keys.ENTER);
+            System.out.println("pressed enter");
 
-            // Wait for search results to load
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div > div> div > div > div > div > div> div > h1")));
+            List<String> cssSelectors = Arrays.asList(
+                    "[id^=\"srp-\"]> div> div > div> div > section > div > div:nth-child(3) > div> div.T_091c165f._sq1l2s._vv1q9c._ks15vq.T_efe231cd._vy1ipv._7ltvct._g3dlk8._c81fwx._cs1nn1.value",
+                    "#innerApp > div> div > div > div > div > div> div> span.css-124qey8",
+                    "[id^=\"srp-\"] > div > div > div > div > section > div > div:nth-child(2) > div > div"
+            );
+
+
+            WebElement visibleElement = waitForAnyElement(driver, cssSelectors, Duration.ofSeconds(5));
 
 
             // Parse search results
-            List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div > div > div > div > div > div > div > span.css-124qey8"));
-            for (WebElement priceElement : priceElements) {
+            WebElement priceElement = visibleElement;
+            SearchProperty searchProperty = SearchProperty.builder()
+                    .propertyName(propertyName)
+                    .averagePrice("n/a")
+                    .build();
+            System.out.println("building entities");
 
-                SearchProperty searchProperty = SearchProperty.builder()
-                        .propertyName(propertyName)
-                        .averagePrice(priceElement.getText())
-                        .build();
-
+            if(priceElement !=null) {
+                    searchProperty.setAveragePrice(priceElement.getText());
+                }
                 searchPropRepo.save(searchProperty);
+                      // Add a 3-second delay
+            try {
+                Thread.sleep(5000); // 3000 milliseconds = 3 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            driver.navigate().back();
+
+            driver.navigate().to("https://housing.com/");
+
         }
 
 // Close WebDriver session
@@ -564,6 +582,18 @@ public class HousingServiceImpl implements HousingService {
 
     }
 
+    public WebElement waitForAnyElement(WebDriver driver, List<String> cssSelectors, Duration timeout) {
+        System.out.println("checking if price exists");
 
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        for (String cssSelector : cssSelectors) {
+            try {
+                return wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+            } catch (TimeoutException e) {
+                //Continue to the next selector if the current one times out
+            }
+        }
+        return null;
+    }
 
 }
