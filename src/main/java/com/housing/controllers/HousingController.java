@@ -25,4 +25,9 @@ public class HousingController {
         System.out.println("getting properties");
         return new ResponseEntity<>(this.housingService.getProperties(), HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearchProperies() throws InterruptedException {
+        System.out.println("getting properties");
+        return new ResponseEntity<>(this.housingService.searchBarProperties(), HttpStatus.OK);
+    }
 }

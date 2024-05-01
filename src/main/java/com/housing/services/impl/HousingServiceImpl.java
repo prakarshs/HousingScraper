@@ -106,6 +106,8 @@ public class HousingServiceImpl implements HousingService {
     @Override
     public List<Properties> searchBarProperties() {
 
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
+
         WebDriver driver = new ChromeDriver();
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
