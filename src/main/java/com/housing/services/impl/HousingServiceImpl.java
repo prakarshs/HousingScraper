@@ -1,7 +1,9 @@
 package com.housing.services.impl;
 
 import com.housing.entities.Properties;
+import com.housing.entities.SearchProperty;
 import com.housing.repositories.PropRepo;
+import com.housing.repositories.SearchPropRepo;
 import com.housing.services.HousingService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +23,7 @@ public class HousingServiceImpl implements HousingService {
 
 
     private PropRepo propRepo;
+    private SearchPropRepo searchPropRepo;
 
     public HousingServiceImpl(PropRepo propRepo) {
         this.propRepo = propRepo;
@@ -541,19 +544,21 @@ public class HousingServiceImpl implements HousingService {
             searchBar.sendKeys(Keys.ENTER);
 
             // Wait for search results to load
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#innerApp > div > div> div > div > div > div > div> div > h1")));
 
 
             // Parse search results
             List<WebElement> priceElements = driver.findElements(By.cssSelector("#innerApp > div > div > div > div > div > div > div > span.css-124qey8"));
-            List<String> prices = new ArrayList<>();
             for (WebElement priceElement : priceElements) {
-                prices.add(priceElement.getText());
-            }
 
-            // Print or store the prices
-            System.out.println(prices);
+                SearchProperty searchProperty = SearchProperty.builder()
+                        .propertyName(propertyName)
+                        .averagePrice(priceElement.getText())
+                        .build();
+
+                searchPropRepo.save(searchProperty);
+            }
         }
 
 // Close WebDriver session
